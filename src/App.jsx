@@ -19,11 +19,8 @@ const searchProduct=async()=>{
   const result=await data.json();
   setProducts(result.products);
 }
-  let timer;
   const handleOnchage=(e)=>{
     setInput(e.target.value);
-    timer=setTimeout(() =>searchProduct(),400);
-    console.log(input);
   }
   const PAGE_SIZE=10;
   const total_page=Math.ceil(products.length / PAGE_SIZE);
@@ -31,8 +28,11 @@ const searchProduct=async()=>{
   const end=start+PAGE_SIZE;
   useEffect(()=>{
     getProduct();
-    return ()=>clearTimeout(timer);
   },[])
+  useEffect(()=>{
+    const timer=setTimeout(() =>searchProduct(),400);
+    return ()=>clearTimeout(timer);
+  },[input])
   return (
     <>
       <div className="container">
